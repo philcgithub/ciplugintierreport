@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Generate Report') { 
             steps {
-                import groovy.json.JsonSlurper
+                //import groovy.json.JsonSlurper
 
                 // Initialise variables
 
@@ -18,7 +18,7 @@ pipeline {
                 def matchedVerified = []
                 def matchedCompatible = []
                 def notMatched = []
-                def jsonSlurper = new JsonSlurper()
+                //def jsonSlurper = new JsonSlurper()
 
                 // Download updatecenter.json
                 def get = new URL(updateCenterURL).openConnection(); 
@@ -36,7 +36,8 @@ pipeline {
                 def extractedResponseData = lines[1]
 
                 // Convert to Json
-                def responseAsJson = jsonSlurper.parseText(extractedResponseData)
+                //def responseAsJson = jsonSlurper.parseText(extractedResponseData)
+                def responseAsJson = readJSON text: extractedResponseData
 
                 // Get list of plugins to check and iterate through them
                 def pluginsToCheck = '''${params.pluginsToCheck}'''
@@ -47,7 +48,7 @@ pipeline {
                     def pluginId = plugin.split(":")
 
                     // try to match the plugin in the Json
-                    def matched = responseAsJson.offeredEnvelope.plugins[pluginId[0]]
+                    def matched = ${responseAsJson.offeredEnvelope.plugins[pluginId[0]]}
                     
                     // if plugin not matched
                     if (matched == null)

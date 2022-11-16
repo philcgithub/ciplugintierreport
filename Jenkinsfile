@@ -12,18 +12,18 @@ pipeline {
 
             // Initialise variables
 
-            def updateCenterURL = "https://jenkins-updates.cloudbees.com/update-center/${params.envelope}/update-center.json?version=${params.version}"
-            def groupResults = "${params.groupResults}"
-            def matchedVerified = []
-            def matchedCompatible = []
-            def notMatched = []
-            //def jsonSlurper = new JsonSlurper()
+            updateCenterURL = "https://jenkins-updates.cloudbees.com/update-center/${params.envelope}/update-center.json?version=${params.version}"
+            groupResults = "${params.groupResults}"
+            matchedVerified = []
+            matchedCompatible = []
+            notMatched = []
+            //jsonSlurper = new JsonSlurper()
 
             // Download updatecenter.json
-            def get = new URL(updateCenterURL).openConnection(); 
+            get = new URL(updateCenterURL).openConnection(); 
 
-            def postResponseCode = get.getResponseCode();
-            def postResponseData = get.getInputStream().getText();
+            postResponseCode = get.getResponseCode();
+            postResponseData = get.getInputStream().getText();
 
             if (postResponseCode != 200) {
                 println "update-center.json could not be retrieved from URL " + updateCenterURL
@@ -31,23 +31,23 @@ pipeline {
             }
 
             // Extract only the json line from the response
-            def lines = postResponseData.readLines()
-            def extractedResponseData = lines[1]
+            lines = postResponseData.readLines()
+            extractedResponseData = lines[1]
 
             // Convert to Json
-            //def responseAsJson = jsonSlurper.parseText(extractedResponseData)
-            def responseAsJson = readJSON text: extractedResponseData
+            //responseAsJson = jsonSlurper.parseText(extractedResponseData)
+            responseAsJson = readJSON text: extractedResponseData
 
             // Get list of plugins to check and iterate through them
-            def pluginsToCheck = '''${params.pluginsToCheck}'''
-            def totalPluginsNumber = pluginsToCheck.readLines().size()
+            pluginsToCheck = '''${params.pluginsToCheck}'''
+            totalPluginsNumber = pluginsToCheck.readLines().size()
 
             pluginsToCheck.readLines().each { plugin ->
                 // On each iteration extract the plugin id    
-                def pluginId = plugin.split(":")
+                pluginId = plugin.split(":")
 
                 // try to match the plugin in the Json
-                def matched = ${responseAsJson.offeredEnvelope.plugins[pluginId[0]]}
+                matched = ${responseAsJson.offeredEnvelope.plugins[pluginId[0]]}
                 
                 // if plugin not matched
                 if (matched == null)

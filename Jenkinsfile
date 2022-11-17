@@ -43,7 +43,10 @@ pipeline {
 
                     // Get list of plugins to check and iterate through them
                     def pluginsToCheck = '''${params.pluginsToCheck}'''
+                    println "PluginsToChec = "
+                    println pluginsToCheck
                     def totalPluginsNumber = pluginsToCheck.readLines().size()
+                    println "totalPluginsNumber" + totalPluginsNumber
 
                     pluginsToCheck.readLines().each { plugin ->
                         // On each iteration extract the plugin id    

@@ -9,6 +9,7 @@ pipeline {
     stages {
         stage('Generate Report') { 
             steps {
+                set +x
                 script {
                     //import groovy.json.JsonSlurper
 
@@ -124,6 +125,7 @@ pipeline {
                     echo "Number of compatible plugins = " + matchedCompatible.size() + " (" + percentMatchedCompatible + "%)"
                     echo "Number of Tier 3 plugins = " + notMatched.size() + " (" + percentNonMatched + "%)"
                 }
+                set -x
             }
         }
     }

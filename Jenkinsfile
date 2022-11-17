@@ -10,8 +10,6 @@ pipeline {
         stage('Generate Report') { 
             steps {
                 script {
-                    // echo off
-                    set +x
                     //import groovy.json.JsonSlurper
 
                     // Initialise variables
@@ -30,7 +28,7 @@ pipeline {
                     def postResponseData = get.getInputStream().getText();
 
                     if (postResponseCode != 200) {
-                        println "update-center.json could not be retrieved from URL " + updateCenterURL
+                        echo "update-center.json could not be retrieved from URL " + updateCenterURL
                         assert false
                     }
 
@@ -45,10 +43,10 @@ pipeline {
 
                     // Get list of plugins to check and iterate through them
                     def pluginsToCheck = "${params.pluginsToCheck}"
-                    println "PluginsToChec = "
-                    println pluginsToCheck
+                    echo "PluginsToChec = "
+                    echo pluginsToCheck
                     def totalPluginsNumber = pluginsToCheck.readLines().size()
-                    println "totalPluginsNumber" + totalPluginsNumber
+                    echo "totalPluginsNumber" + totalPluginsNumber
 
                     pluginsToCheck.readLines().each { plugin ->
                         // On each iteration extract the plugin id    
@@ -64,7 +62,7 @@ pipeline {
                             notMatched << pluginId[0]
                             // if results should not be grouped then display this plugin
                             if (groupResults == 'false') {
-                                println pluginId[0]
+                                echo pluginId[0]
                             }
                         } else {
                             // if plugin is matched
@@ -94,10 +92,10 @@ pipeline {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
                                     // display without version warning
-                                    println matched.artifactId + ' | ' + matched.tier + " (CAP version " + matched.version + " supplied plugin version " + pluginId[1] + ")"
+                                    echo matched.artifactId + ' | ' + matched.tier + " (CAP version " + matched.version + " supplied plugin version " + pluginId[1] + ")"
                                 } else {
                                     // display with version warning
-                                    println matched.artifactId + ' | ' + matched.tier
+                                    echo matched.artifactId + ' | ' + matched.tier
                                 }
                             }
                         }
@@ -105,14 +103,14 @@ pipeline {
 
                     // if results should be grouped then display them
                     if (groupResults == 'true') {
-                        println "Verified or Proprietary\n--------\n"
-                        matchedVerified.each { println it }
+                        echo "Verified or Proprietary\n--------\n"
+                        matchedVerified.each { echo it }
                         
-                        println "\nCompatible\n----------\n"
-                        matchedCompatible.each { println it }
+                        echo "\nCompatible\n----------\n"
+                        matchedCompatible.each { echo it }
                         
-                        println "\nTier 3\n------\n"
-                        notMatched.each { println it }
+                        echo "\nTier 3\n------\n"
+                        notMatched.each { echo it }
                     }
 
                     percentMatchedVerified = (matchedVerified.size() / totalPluginsNumber)*100
@@ -120,14 +118,11 @@ pipeline {
                     percentNonMatched = (notMatched.size() / totalPluginsNumber)*100
 
                     // Display some statistics
-                    println "\nStatistics\n"
-                    println "Total number of plugins = " + totalPluginsNumber
-                    println "Number of verified or proprietary plugins = " + matchedVerified.size() + " (" + percentMatchedVerified + "%)"
-                    println "Number of compatible plugins = " + matchedCompatible.size() + " (" + percentMatchedCompatible + "%)"
-                    println "Number of Tier 3 plugins = " + notMatched.size() + " (" + percentNonMatched + "%)"
-
-                    //echo on
-                    set -x
+                    echo "\nStatistics\n"
+                    echo "Total number of plugins = " + totalPluginsNumber
+                    echo "Number of verified or proprietary plugins = " + matchedVerified.size() + " (" + percentMatchedVerified + "%)"
+                    echo "Number of compatible plugins = " + matchedCompatible.size() + " (" + percentMatchedCompatible + "%)"
+                    echo "Number of Tier 3 plugins = " + notMatched.size() + " (" + percentNonMatched + "%)"
                 }
             }
         }

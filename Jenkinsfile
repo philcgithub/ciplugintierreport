@@ -50,7 +50,7 @@ pipeline {
                         def pluginId = plugin.split(":")
 
                         // try to match the plugin in the Json
-                        def matched = ${responseAsJson.offeredEnvelope.plugins[pluginId[0]]}
+                        def matched = responseAsJson.offeredEnvelope.plugins[pluginId[0]]
                         
                         // if plugin not matched
                         if (matched == null)

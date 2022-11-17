@@ -67,7 +67,7 @@ pipeline {
                         } else {
                             // if plugin is matched
                             // if plugin is verified
-                            if (matched.tier == 'verified') {
+                            if (matched.tier == 'verified' || 'proprietary') {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
                                     // record without version warning
@@ -103,7 +103,7 @@ pipeline {
 
                     // if results should be grouped then display them
                     if (groupResults == 'true') {
-                        println "Verified\n--------\n"
+                        println "Verified or Proprietary\n--------\n"
                         matchedVerified.each { println it }
                         
                         println "\nCompatible\n----------\n"
@@ -120,7 +120,7 @@ pipeline {
                     // Display some statistics
                     println "\nStatistics\n"
                     println "Total number of plugins = " + totalPluginsNumber
-                    println "Number of verified plugins = " + matchedVerified.size() + " (" + percentMatchedVerified + "%)"
+                    println "Number of verified or proprietary plugins = " + matchedVerified.size() + " (" + percentMatchedVerified + "%)"
                     println "Number of compatible plugins = " + matchedCompatible.size() + " (" + percentMatchedCompatible + "%)"
                     println "Number of Tier 3 plugins = " + notMatched.size() + " (" + percentNonMatched + "%)"
                 }

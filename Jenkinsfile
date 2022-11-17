@@ -42,7 +42,7 @@ pipeline {
                     def responseAsJson = slurper.parseText(extractedResponseData)
 
                     // Get list of plugins to check and iterate through them
-                    def pluginsToCheck = ${params.pluginsToCheck}
+                    def pluginsToCheck = "${params.pluginsToCheck}"
                     println "PluginsToChec = "
                     println pluginsToCheck
                     def totalPluginsNumber = pluginsToCheck.readLines().size()

@@ -38,7 +38,8 @@ pipeline {
 
                     // Convert to Json
                     //def responseAsJson = jsonSlurper.parseText(extractedResponseData)
-                    def responseAsJson = readJSON text: extractedResponseData
+                    def slurper = new groovy.json.JsonSlurperClassic()
+                    def responseAsJson = slurper.parseText(extractedResponseData)
 
                     // Get list of plugins to check and iterate through them
                     def pluginsToCheck = '''${params.pluginsToCheck}'''

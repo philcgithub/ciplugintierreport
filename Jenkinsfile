@@ -114,14 +114,15 @@ pipeline {
                     }
 
                     percentMatchedVerified = (matchedVerified.size() / totalPluginsNumber)*100
-                    println percentMatchedVerified
+                    percentMatchedCompatible = (matchedCompatible.size() / totalPluginsNumber)*100
+                    percentNonMatched = (notMatched.size() / totalPluginsNumber)*100
 
                     // Display some statistics
                     println "\nStatistics\n"
                     println "Total number of plugins = " + totalPluginsNumber
-                    println "Number of verified plugins = " + matchedVerified.size() + " (" + Math.rint((matchedVerified.size() / totalPluginsNumber)*100) + "%)"
-                    println "Number of compatible plugins = " + matchedCompatible.size() + " (" + Math.rint((matchedCompatible.size() / totalPluginsNumber)*100) + "%)"
-                    println "Number of Tier 3 plugins = " + notMatched.size() + " (" + Math.rint((notMatched.size() / totalPluginsNumber)*100) + "%)"
+                    println "Number of verified plugins = " + matchedVerified.size() + " (" + percentMatchedVerified + "%)"
+                    println "Number of compatible plugins = " + matchedCompatible.size() + " (" + percentMatchedCompatible + "%)"
+                    println "Number of Tier 3 plugins = " + notMatched.size() + " (" + percentNonMatched + "%)"
                 }
             }
         }

@@ -113,6 +113,12 @@ pipeline {
                         notMatched.each { println it }
                     }
 
+                    println "matchedVerified.size() = " + matchedVerified.size()
+                    println "totalPluginsNumber = " + totalPluginsNumber
+                    println "matchedVerified.size()" + matchedVerified.size()
+                    println "matchedCompatible.size()" + matchedCompatible.size()
+                    println "notMatched.size()" + notMatched.size()
+
                     // Display some statistics
                     println "\nStatistics\n"
                     println "Total number of plugins = " + totalPluginsNumber

@@ -113,14 +113,8 @@ pipeline {
                         notMatched.each { println it }
                     }
 
-                    println "matchedVerified.size() = " + matchedVerified.size()
-                    println "totalPluginsNumber = " + totalPluginsNumber
-                    println "matchedVerified.size()" + matchedVerified.size()
-                    println "matchedCompatible.size()" + matchedCompatible.size()
-                    println "notMatched.size()" + notMatched.size()
-                    println "simple sum = " + notMatched.size() + matchedCompatible.size()
-                    sum2 = notMatched.size() + matchedCompatible.size()
-                    println sum2
+                    percentMatchedVerified = (matchedVerified.size() / totalPluginsNumber)*100
+                    println percentMatchedVerified
 
                     // Display some statistics
                     println "\nStatistics\n"

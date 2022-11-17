@@ -118,6 +118,9 @@ pipeline {
                     println "matchedVerified.size()" + matchedVerified.size()
                     println "matchedCompatible.size()" + matchedCompatible.size()
                     println "notMatched.size()" + notMatched.size()
+                    println "simple sum = " + notMatched.size() + matchedCompatible.size()
+                    sum2 = notMatched.size() + matchedCompatible.size()
+                    println sum2
 
                     // Display some statistics
                     println "\nStatistics\n"

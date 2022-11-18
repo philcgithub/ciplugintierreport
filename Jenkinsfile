@@ -17,8 +17,11 @@ pipeline {
                     def updateCenterURL = "https://jenkins-updates.cloudbees.com/update-center/${params.envelope}/update-center.json?version=${params.version}"
                     def groupResults = "${params.groupResults}"
                     def matchedVerified = []
+                    def matchedVerifiedOutputString = ""
                     def matchedCompatible = []
+                    def matchedCompatibleOutputString = ""
                     def notMatched = []
+                    def notMatchedOutputString = ""
                     def nonGrouped = []
                     def nonGroupedOutputString = ""
 
@@ -105,18 +108,27 @@ pipeline {
                     // if results should be grouped then display them
                     if (groupResults == 'true') {
                         echo "Verified or Proprietary\n--------\n"
-                        matchedVerified.each { echo it }
+                        matchedVerified.each { item ->
+                            matchedVerifiedOutputString = matchedVerifiedOutputString + item + "\n"
+                        }
+                        echo matchedVerifiedOutputString
 
                         echo "\nCompatible\n----------\n"
-                        matchedCompatible.each { echo it }
+                        matchedCompatible.each { item ->
+                            matchedCompatibleOutputString = matchedCompatibleOutputString + item + "\n"
+                        }
+                        echo matchedCompatibleOutputString
 
                         echo "\nTier 3\n------\n"
-                        notMatched.each { echo it }
+                        notMatched.each { item ->
+                            notMatchedOutputString = notMatchedOutputString + item + "\n"
+                        }
+                        echo notMatchedOutputString
                     } else {
                         nonGrouped.each { item ->
                             nonGroupedOutputString = nonGroupedOutputString + item + "\n"
                         }
-                        echo "Combined string: " + nonGroupedOutputString
+                        echo nonGroupedOutputString
                     }
 
                     percentMatchedVerified = (matchedVerified.size() / totalPluginsNumber)*100

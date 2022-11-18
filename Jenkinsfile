@@ -20,6 +20,7 @@ pipeline {
                     def matchedCompatible = []
                     def notMatched = []
                     def nonGrouped = []
+                    def nonGroupedOutputString = ""
 
                     // Download updatecenter.json
                     def get = new URL(updateCenterURL).openConnection(); 
@@ -110,7 +111,10 @@ pipeline {
                         echo "\nTier 3\n------\n"
                         notMatched.each { echo it }
                     } else {
-                        echo nonGrouped
+                        nonGrouped.each {
+                            nonGroupedOutputString << it << "\n"
+                        }
+                        echo nonGroupedOutputString
                     }
 
                     percentMatchedVerified = (matchedVerified.size() / totalPluginsNumber)*100

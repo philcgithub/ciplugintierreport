@@ -48,7 +48,7 @@ pipeline {
                     def totalPluginsNumber = pluginsToCheck.readLines().size()
 
                     pluginsToCheck.readLines().each { plugin ->
-                        // On each iteration extract the plugin id    
+                        // On each iteration extract the plugin id
                         def pluginId = plugin.split(":")
 
                         // try to match the plugin in the Json
@@ -57,10 +57,12 @@ pipeline {
                         // if plugin not matched
                         if (matched == null)
                         {
-                            // record it
-                            notMatched << pluginId[0]
-                            // if results should not be grouped then display this plugin
-                            if (groupResults == 'false') {
+                            // if results should be grouped then record this plugin in it's correct group
+                            if (groupResults == 'true') {
+                                // record it in correct group
+                                notMatched << pluginId[0]
+                            } else {
+                                // or record it in original order
                                 nonGrouped << pluginId[0]
                             }
                         } else {
@@ -104,14 +106,15 @@ pipeline {
                     if (groupResults == 'true') {
                         echo "Verified or Proprietary\n--------\n"
                         matchedVerified.each { echo it }
-                        
+
                         echo "\nCompatible\n----------\n"
                         matchedCompatible.each { echo it }
-                        
+
                         echo "\nTier 3\n------\n"
                         notMatched.each { echo it }
                     } else {
                         nonGrouped.each { item ->
+                            echo "item: " + item
                             nonGroupedOutputString << item << "\n"
                         }
                         echo nonGroupedOutputString

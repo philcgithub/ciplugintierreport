@@ -68,20 +68,20 @@ pipeline {
                             if (matched.tier in ['verified', 'proprietary']) {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
-                                    // record without version warning
+                                    // record with version warning
                                     matchedVerified << matched.artifactId + " (CAP version " + matched.version + " supplied plugin version " + pluginId[1] + ")"
                                 } else {
-                                    // record with version warning
+                                    // record without version warning
                                     matchedVerified << matched.artifactId
                                 }
                             // if plugin is compatible
                             } else if (matched.tier == 'compatible') {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
-                                    // record without version warning
+                                    // record with version warning
                                     matchedCompatible << matched.artifactId + " (CAP version " + matched.version + " supplied plugin version  " + pluginId[1] + ")"
                                 } else {
-                                    // record with version warning
+                                    // record without version warning
                                     matchedCompatible << matched.artifactId
                                 }
                             }
@@ -89,10 +89,10 @@ pipeline {
                             if (groupResults == 'false') {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
-                                    // display without version warning
+                                    // display with version warning
                                     echo matched.artifactId + ' | ' + matched.tier + " (CAP version " + matched.version + " supplied plugin version " + pluginId[1] + ")"
                                 } else {
-                                    // display with version warning
+                                    // display without version warning
                                     echo matched.artifactId + ' | ' + matched.tier
                                 }
                             }

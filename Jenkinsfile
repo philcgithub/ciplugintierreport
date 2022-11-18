@@ -111,8 +111,8 @@ pipeline {
                         echo "\nTier 3\n------\n"
                         notMatched.each { echo it }
                     } else {
-                        nonGrouped.each {
-                            nonGroupedOutputString << it << "\n"
+                        nonGrouped.each { item ->
+                            nonGroupedOutputString << item << "\n"
                         }
                         echo nonGroupedOutputString
                     }

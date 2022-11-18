@@ -114,9 +114,7 @@ pipeline {
                         notMatched.each { echo it }
                     } else {
                         nonGrouped.each { item ->
-                            echo "item: " + item
-                            nonGroupedOutputString << item + "\n"
-                            echo "Latest: " + nonGroupedOutputString
+                            nonGroupedOutputString = nonGroupedOutputString + item + "\n"
                         }
                         echo "Combined string: " + nonGroupedOutputString
                     }

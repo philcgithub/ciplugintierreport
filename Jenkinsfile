@@ -65,7 +65,7 @@ pipeline {
                         } else {
                             // if plugin is matched
                             // if plugin is verified
-                            if (matched.tier == 'verified' || 'proprietary') {
+                            if (matched.tier in ['verified', 'proprietary']) {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
                                     // record without version warning

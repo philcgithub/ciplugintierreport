@@ -19,7 +19,7 @@ pipeline {
                     def matchedVerified = []
                     def matchedCompatible = []
                     def notMatched = []
-                    //def jsonSlurper = new JsonSlurper()
+                    def nonGrouped = []
 
                     // Download updatecenter.json
                     def get = new URL(updateCenterURL).openConnection(); 
@@ -60,11 +60,11 @@ pipeline {
                             notMatched << pluginId[0]
                             // if results should not be grouped then display this plugin
                             if (groupResults == 'false') {
-                                echo pluginId[0]
+                                nonGrouped << pluginId[0]
                             }
                         } else {
                             // if plugin is matched
-                            // if plugin is verified
+                            // if plugin is verified or proprietary
                             if (matched.tier in ['verified', 'proprietary']) {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
@@ -89,11 +89,11 @@ pipeline {
                             if (groupResults == 'false') {
                                 // if version was supplied then check to see if version matches
                                 if (pluginId.size() > 1 && matched.version != pluginId[1]) {
-                                    // display with version warning
-                                    echo matched.artifactId + ' | ' + matched.tier + " (CAP version " + matched.version + " supplied plugin version " + pluginId[1] + ")"
+                                    // record with version warning
+                                    nonGrouped << matched.artifactId + ' | ' + matched.tier + " (CAP version " + matched.version + " supplied plugin version " + pluginId[1] + ")"
                                 } else {
-                                    // display without version warning
-                                    echo matched.artifactId + ' | ' + matched.tier
+                                    // record without version warning
+                                    nonGrouped << matched.artifactId + ' | ' + matched.tier
                                 }
                             }
                         }
@@ -109,6 +109,8 @@ pipeline {
                         
                         echo "\nTier 3\n------\n"
                         notMatched.each { echo it }
+                    } else {
+                        echo nonGrouped
                     }
 
                     percentMatchedVerified = (matchedVerified.size() / totalPluginsNumber)*100

@@ -115,9 +115,9 @@ pipeline {
                     } else {
                         nonGrouped.each { item ->
                             echo "item: " + item
-                            nonGroupedOutputString << item << "\n"
+                            nonGroupedOutputString << item + "\n"
                         }
-                        echo nonGroupedOutputString
+                        echo "Combined string: " + nonGroupedOutputString
                     }
 
                     percentMatchedVerified = (matchedVerified.size() / totalPluginsNumber)*100

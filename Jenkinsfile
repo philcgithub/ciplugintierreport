@@ -116,6 +116,7 @@ pipeline {
                         nonGrouped.each { item ->
                             echo "item: " + item
                             nonGroupedOutputString << item + "\n"
+                            echo "Latest: " + nonGroupedOutputString
                         }
                         echo "Combined string: " + nonGroupedOutputString
                     }
